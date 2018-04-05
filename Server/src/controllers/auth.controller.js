@@ -6,7 +6,7 @@ class AuthController {
       const user = await User.create(req.body)
       res.send(user)
     } catch (err) {
-      res.status(400).send(err)
+      res.status(400).send({err: 'Adresse email déjà utilisée'})
     }
   }
 
