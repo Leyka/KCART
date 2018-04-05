@@ -2,10 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
-const mongoose = require('mongoose')
+const sequelize = require('./models')
+const config = require('../config')
 const app = express()
-
-mongoose.connect('mongodb://localhost/kcart')
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
@@ -14,4 +13,7 @@ app.use(cors())
 
 require('./routes')(app)
 
-app.listen(process.env.PORT || 3000)
+sequelize.sync().then(() => {
+  app.listen(config.port)
+  console.log('All set on port', config.port)
+})

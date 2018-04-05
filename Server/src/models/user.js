@@ -1,28 +1,28 @@
 const bcrypt = require('bcrypt')
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-const UserSchema = new Schema({
-  email: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
-  name: { type: String, required: true }
-})
-
-// Encrypt password before save
-UserSchema.pre('save', function () {
-  const user = this
-
-  if (!user.isModified('password')) return
-
-  // Hash/Salt password
+const hashPassword = (user, options) => {
+  if (!user.changed('password')) {
+    return
+  }
   const saltRounds = 10
   const hash = bcrypt.hashSync(user.password, saltRounds)
-  user.password = hash
-})
-
-// Compare hashed password
-UserSchema.methods.comparePassword = function (candidatePassword) {
-  return bcrypt.compareSync(candidatePassword, this.password)
+  user.setDataValue('password', hash)
 }
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    email: { type: DataTypes.STRING, unique: true },
+    password: DataTypes.STRING,
+    name: DataTypes.STRING
+  }, {
+    hooks: {
+      beforeSave: hashPassword
+    }
+  })
+
+  User.prototype.comparePassword = function (candidatePassword) {
+    return bcrypt.compareSync(candidatePassword, this.password)
+  }
+
+  return User
+}

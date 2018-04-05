@@ -1,10 +1,9 @@
-const User = require('../models/user')
+const { User } = require('../models')
 
 class AuthController {
   async register (req, res) {
     try {
-      let user = new User(req.body)
-      user = await user.save()
+      const user = await User.create(req.body)
       res.send(user)
     } catch (err) {
       res.status(400).send(err)
@@ -15,7 +14,7 @@ class AuthController {
     const {email, password} = req.body
     try {
       // Check email
-      const user = await User.findOne({email})
+      const user = await User.findOne({ where: { email: email } })
       if (!user) {
         return res.status(403).send({error: 'Votre email semble invalide'})
       }
