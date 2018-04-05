@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const app = express()
 
-// mongoose.connect('mongodb://192.168.1.2:27017/kcart_dev')
+mongoose.connect('mongodb://localhost/kcart')
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
@@ -15,4 +15,3 @@ app.use(cors())
 require('./routes')(app)
 
 app.listen(process.env.PORT || 3000)
-console.log('All Set !')
