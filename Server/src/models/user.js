@@ -24,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compareSync(candidatePassword, this.password)
   }
 
+  User.associate = function (models) {
+    User.hasMany(models.Query)
+  }
+
   return User
 }
