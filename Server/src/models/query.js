@@ -11,6 +11,7 @@ const QuerySchema = new Schema({
   description: String,
   minPrice: Number,
   maxPrice: Number,
+  user: { type: Schema.ObjectId, ref: 'User' },
   ads: [{ type: Schema.ObjectId, ref: 'Ad' }]
 })
 

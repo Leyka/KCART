@@ -7,7 +7,7 @@ class AuthController {
       user = await user.save()
       res.send(user)
     } catch (err) {
-      res.status(400).send({err: 'Adresse Email déjà utilisée'})
+      res.status(400).send({err: 'Email already used'})
     }
   }
 
