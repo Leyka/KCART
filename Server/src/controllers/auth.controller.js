@@ -1,12 +1,13 @@
-const { User } = require('../models')
+const User = require('../models/user')
 
 class AuthController {
   async register (req, res) {
     try {
-      const user = await User.create(req.body)
+      let user = new User(req.body)
+      user = await user.save()
       res.send(user)
     } catch (err) {
-      res.status(400).send({err: 'Adresse email déjà utilisée'})
+      res.status(400).send({err: 'Adresse Email déjà utilisée'})
     }
   }
 
@@ -14,7 +15,7 @@ class AuthController {
     const {email, password} = req.body
     try {
       // Check email
-      const user = await User.findOne({ where: { email: email } })
+      const user = await User.findOne({email})
       if (!user) {
         return res.status(403).send({error: 'Votre email semble invalide'})
       }
@@ -28,8 +29,7 @@ class AuthController {
       res.send(user)
     } catch (err) {
       res.status(500).send({
-        error: "Une erreur interne s'est produite lors de la connexion",
-        err
+        error: "Une erreur interne s'est produite lors de la connexion"
       })
     }
   }
