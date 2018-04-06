@@ -6,6 +6,6 @@ module.exports = {
     url: process.env.DB_URL || 'mongodb://localhost/kcart'
   },
   auth: {
-    jwtSecret: process.env.JWT_SECRET || 's3cret'
+    jwtSecret: process.env.JWT_SECRET || 'S3creT'
   }
 }

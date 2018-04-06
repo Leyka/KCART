@@ -1,4 +1,12 @@
+const jwt = require('jsonwebtoken')
+const path = require('path')
+const config = require(path.resolve('config'))
 const User = require('../models/user')
+
+function generateJWT (user) {
+  const oneWeek = 60 * 60 * 24 * 7
+  return jwt.sign(user, config.auth.jwtSecret, {expiresIn: oneWeek})
+}
 
 class AuthController {
   async register (req, res) {
@@ -7,7 +15,7 @@ class AuthController {
       user = await user.save()
       res.send(user)
     } catch (err) {
-      res.status(400).send({err: 'Email already used'})
+      res.status(400).send({error: 'Adresse Email déjà utilisée'})
     }
   }
 
@@ -25,8 +33,11 @@ class AuthController {
         return res.status(403).send({error: 'Votre mot de passe semble invalide'})
       }
 
-      // User is valid, connect
-      res.send(user)
+      // User is valid, connect and generate token
+      res.send({
+        user,
+        token: generateJWT(user.toJSON())
+      })
     } catch (err) {
       res.status(500).send({
         error: "Une erreur interne s'est produite lors de la connexion"
