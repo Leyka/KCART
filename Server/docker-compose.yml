@@ -1,0 +1,10 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    ports: 
+      - 27017:27017
+  admin-mongo:
+    image: mrvautin/adminmongo
+    ports:
+      - 1234:1234
