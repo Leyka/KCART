@@ -5,7 +5,7 @@ const User = require('../models/user')
 
 function generateJWT (user) {
   const oneWeek = 60 * 60 * 24 * 7
-  return jwt.sign(user, config.auth.jwtSecret, {expiresIn: oneWeek})
+  return jwt.sign(user.toJSON(), config.auth.jwtSecret, {expiresIn: oneWeek})
 }
 
 class AuthController {
@@ -13,7 +13,10 @@ class AuthController {
     try {
       let user = new User(req.body)
       user = await user.save()
-      res.send(user)
+      res.send({
+        user,
+        token: generateJWT(user)
+      })
     } catch (err) {
       res.status(400).send({error: 'Adresse Email déjà utilisée'})
     }
@@ -36,7 +39,7 @@ class AuthController {
       // User is valid, connect and generate token
       res.send({
         user,
-        token: generateJWT(user.toJSON())
+        token: generateJWT(user)
       })
     } catch (err) {
       res.status(500).send({
