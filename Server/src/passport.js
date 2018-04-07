@@ -13,7 +13,7 @@ passport.use(
     // Verify token validity
     try {
       // Retrieve User and check real User.ID with User.ID within uncrypted JWT payload
-      const user = await User.findOne({ id: jwtPayload.id })
+      const user = await User.findById(jwtPayload._id)
       // We found a valid user
       if (user) {
         return done(null, user)
