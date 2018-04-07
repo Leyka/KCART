@@ -1,17 +1,15 @@
 const Query = require('../models/query')
-const User = require('../models/user')
 
 class QueriesController {
   async new (req, res) {
-    const user = await User.findById(req.user.id)
+    const user = req.user
     const query = new Query(req.body)
     // Save query
     query.user = user.id
     await query.save()
     // Assign query to current user
     user.queries.push(query)
-    user.save()
-
+    await user.save()
     res.send({user, query})
   }
 }

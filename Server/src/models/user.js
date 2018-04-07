@@ -6,7 +6,8 @@ const UserSchema = new Schema({
   email: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
   name: { type: String, required: true },
-  queries: [{ type: Schema.Types.ObjectId, ref: 'Query' }]
+  location: { type: Schema.ObjectId, ref: 'Location' },
+  queries: [{ type: Schema.ObjectId, ref: 'Query' }]
 })
 
 // Encrypt password before save
