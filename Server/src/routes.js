@@ -9,6 +9,5 @@ module.exports = app => {
   app.post('/register', AuthController.register)
   app.post('/login', AuthController.login)
   app.post('/queries/new', AuthPolicies.verifyToken, QueriesController.new)
-  app.post('/ads/new', AuthPolicies.verifyToken, AdsController.new)
   app.post('/ads/populate', AdsController.populate)
 }

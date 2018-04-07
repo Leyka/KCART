@@ -9,6 +9,7 @@ const Schema = mongoose.Schema
 const AdSchema = new Schema({
   publicId: Number,
   link: String,
+  title: String,
   description: String,
   price: Number,
   date: Date,

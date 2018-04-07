@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path')
 const config = require(path.resolve('config'))
 const User = require('../models/user')
+const Location = require('../models/location')
 
 function generateJWT (user) {
   const oneWeek = 60 * 60 * 24 * 7
@@ -11,7 +12,12 @@ function generateJWT (user) {
 class AuthController {
   async register (req, res) {
     try {
+      // Link location
+      const locationPublicId = req.body.location
+      const location = await Location.findOne({publicId: locationPublicId})
+      // Create user
       let user = new User(req.body)
+      user.location = location.id
       user = await user.save()
       res.send({
         user,

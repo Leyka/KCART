@@ -8,7 +8,7 @@ class QueriesController {
     query.user = user.id
     await query.save()
     // Assign query to current user
-    user.queries.push(query)
+    user.queries.addToSet(query)
     await user.save()
     res.send({user, query})
   }

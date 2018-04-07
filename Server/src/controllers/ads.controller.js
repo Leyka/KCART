@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Ad = require('../models/ad')
 const kijiji = require('kijiji-scraper')
 const AdsHelper = require('../helpers/ads.helper')
 
@@ -15,18 +16,18 @@ class AdsController {
           categoryId: AdsHelper.CAR_CATEGORY,
           locationId: location.publicId
         }
-
         const searchCriteria = {
           keywords: AdsHelper.formatQueryToKeywords(query),
           minPrice: query.minPrice,
           maxPrice: query.maxPrice
         }
 
-        kijiji.query(prefs, searchCriteria, (err, ads) => {
+        kijiji.query(prefs, searchCriteria, async (err, ads) => {
           if (err) {
             return res.status(400).send(err)
           }
-          ads.forEach(saveAd)
+          await ads.forEach(ad => saveNewAd(query, ad))
+          res.send('Done populating!')
         })
       })
     })
@@ -34,12 +35,23 @@ class AdsController {
 }
 
 /**
- * TODO: Save ad
- * Check if ad url exists in db and (by public Id)
- * If no, map props and save it.
+ * Save ad in database if not existent
  */
-function saveAd (ad) {
-  console.log('We will save ad!', ad)
+async function saveNewAd (query, kijijiAd) {
+  // Check if ad already exists in database
+  const adPublicId = AdsHelper.retrieveIdFromUrl(kijijiAd)
+  const adInDatabase = await Ad.findOne({publicId: adPublicId})
+  const brandMatches = AdsHelper.checkBrand(kijijiAd, query.brand)
+  if (!adInDatabase && brandMatches) {
+    // Save new ad in database
+    const fields = AdsHelper.formatAdFields(kijijiAd)
+    const ad = new Ad(fields)
+    await ad.save()
+    // Link it to the current query
+    query.ads.addToSet(ad)
+    await query.save()
+  }
+  return query
 }
 
 module.exports = new AdsController()
