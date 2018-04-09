@@ -15,11 +15,11 @@
       <v-container fluid>
         <div class="grey--text" v-if="user.queries">
           <h2>Dernières annonces Kijiji</h2>
-          <div v-for="ad in ads" :key="ad._id" class="mt-2">
-            <h2>{{ad.title}}</h2>
-            <p>{{ad.description}}</p>
-            <small>{{ad.date}}</small>
-            <v-divider />
+          <div v-for="ad in ads" :key="ad._id" class="mt-3">
+            <a target="_blank" :href="ad.link" class="headline">{{ ad.title }}</a>
+            <p>{{ ad.description }}</p>
+            <v-chip small class="warning">Annonce publiée il y a {{ ad.date | moment('from', true) }}</v-chip>
+            <v-divider class="mt-2 mb-2"/>
           </div>
         </div>
         <v-layout justify-center align-center v-else>

@@ -7,13 +7,19 @@ import { store } from '@/store'
 import { sync } from 'vuex-router-sync'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import VueMoment from 'vue-moment'
+require('moment/locale/fr')
 
-Vue.config.productionTip = false
-
+// Set Vuetify
 Vue.use(Vuetify)
+
+// Set Moment.js
+Vue.use(VueMoment)
 
 // Keep vue-router and vuex store synchronized
 sync(store, router)
+
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
