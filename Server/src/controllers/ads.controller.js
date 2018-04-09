@@ -4,6 +4,15 @@ const kijiji = require('kijiji-scraper')
 const AdsHelper = require('../helpers/ads.helper')
 
 class AdsController {
+  /** Get latest ads according to the queries given */
+  async latest (req, res) {
+    const queries = req.user.queries
+    const ads = await Ad
+      .find({query: {'$in': queries}})
+      .sort({date: 'desc'})
+    return res.send(ads)
+  }
+
   /** Scrap kijiji and populate database */
   async populate (req, res) {
     const users = await User.find({}).populate('queries').populate('location')
@@ -46,6 +55,7 @@ async function saveNewAd (query, kijijiAd) {
     // Save new ad in database
     const fields = AdsHelper.formatAdFields(kijijiAd)
     const ad = new Ad(fields)
+    ad.query = query.id
     await ad.save()
     // Link it to the current query
     query.ads.addToSet(ad)

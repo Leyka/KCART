@@ -1,63 +1,95 @@
 <template>
   <div>
-    <v-navigation-drawer
-      fixed
-      clipped
-      v-model="nav"
-      app
-    >
-      <v-subheader class="mt-3">
-        <v-icon>directions_car</v-icon>
-        <span class="ml-1 grey--text">Your Cars</span>
-      </v-subheader>
-      <v-divider />
-      <v-list>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon color="grey darken-1">exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title class="grey--text text--darken-1">Logout</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar
-      color="deep-purple darken-3"
-      clipped-left
-      dark
-      app
-    >
-    <v-toolbar-side-icon @click.stop="nav = !nav" />
-    <span class="title ml-3 mr-5">
-      KCart
-      <v-icon color="green accent-4">center_focus_strong</v-icon>
-      <small>Kijiji Cars Tracker</small>
-    </span>
-    <v-spacer></v-spacer>
-    <v-menu>
-      <v-btn flat slot="activator">English</v-btn>
-      <v-list>
-        <v-list-tile>
-          <v-list-tile-title>English</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-title>French</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-menu>
-    </v-toolbar>
+    <Sidebar
+      :queries="queries"
+      :nav="nav"
+      :disconnect="disconnect"
+      :openDialog="openDialog"
+    />
+    <Navbar
+      :toggleNav="toggleNav"
+      :disconnect="disconnect"
+    />
+    <v-content>
+      <v-container fluid>
+        <div class="grey--text" v-if="queries">
+          <h2>Dernières annonces Kijiji</h2>
+          <div v-for="query in queries" :key="query._id" class="mt-3">
+            <v-chip label disabled color="pink" text-color="white">
+              <strong>{{query.brand}} {{ query.description}}</strong>
+            </v-chip>
+            <div v-for="ad in query.ads" :key="ad._id">
+              <h2>{{ad.title}}</h2>
+              <p>{{ad.description}}</p>
+            </div>
+          </div>
+        </div>
+        <v-layout justify-center align-center v-else>
+          <div class="grey--text mt-2 text-xs-center">
+            <h2>Vous n'avez pas encore d'abonnements</h2>
+            <p>Commencez par ajouter des abonnements pour pouvoir afficher les annonces Kijiji.</p>
+            <v-btn class="success" @click="openQueryDialog = true">Ajouter</v-btn>
+          </div>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-dialog v-model="openQueryDialog" max-width="600px">
+      <v-card>
+        <v-card-title>
+          <h3>Salut</h3>
+        </v-card-title>
+        <v-card-text>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="red" flat @click.stop="openQueryDialog = false">Fermer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import Sidebar from '@/components/Sidebar'
+import Navbar from '@/components/Navbar'
+
+import QueryService from '@/services/query'
+import AdService from '@/services/ad'
+
 export default {
   data () {
     return {
-      nav: true
+      queries: null,
+      ads: null,
+      nav: true,
+      openQueryDialog: false
+    }
+  },
+  components: {
+    Sidebar,
+    Navbar
+  },
+  async mounted () {
+    // Fetch user queries
+    const queries = (await QueryService.all()).data
+    if (queries) this.queries = queries
+    // Fetch ads
+    const ads = (await AdService.all()).data
+    if (ads) this.ads = ads
+  },
+  methods: {
+    disconnect () {
+      console.log('Disconnected')
+    },
+    openDialog () {
+      this.openQueryDialog = true
+    },
+    toggleNav () {
+      this.nav = !this.nav
     }
   }
+
 }
 </script>
 
 <style scoped>
-
 </style>

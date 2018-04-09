@@ -1,6 +1,11 @@
 const Query = require('../models/query')
 
 class QueriesController {
+  async all (req, res) {
+    const queries = await Query.find({})
+    res.send(queries)
+  }
+
   async new (req, res) {
     const user = req.user
     const query = new Query(req.body)

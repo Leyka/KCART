@@ -44,6 +44,7 @@ export default {
 <style scoped>
 .auth {
   background: url('https://images.unsplash.com/photo-1500921726673-e4bdc09efa55?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e627445359a5bc2409cb58517bb33882&auto=format&fit=crop&w=1950&q=80');
-
+  background-size:cover;
+  background-repeat:no-repeat;
 }
 </style>

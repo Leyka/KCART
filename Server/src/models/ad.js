@@ -21,7 +21,8 @@ const AdSchema = new Schema({
   year: Number,
   drivetrain: String,
   kilometers: String,
-  images: [String]
+  images: [String],
+  query: { type: Schema.ObjectId, ref: 'Query' }
 })
 
 module.exports = mongoose.model('Ad', AdSchema)
