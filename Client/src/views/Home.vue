@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar
-      :queries="queries"
+      :queries="user.queries"
       :nav="nav"
       :disconnect="disconnect"
       :openDialog="openDialog"
@@ -9,19 +9,17 @@
     <Navbar
       :toggleNav="toggleNav"
       :disconnect="disconnect"
+      :userName="user.name"
     />
     <v-content>
       <v-container fluid>
-        <div class="grey--text" v-if="queries">
+        <div class="grey--text" v-if="user.queries">
           <h2>Dernières annonces Kijiji</h2>
-          <div v-for="query in queries" :key="query._id" class="mt-3">
-            <v-chip label disabled color="pink" text-color="white">
-              <strong>{{query.brand}} {{ query.description}}</strong>
-            </v-chip>
-            <div v-for="ad in query.ads" :key="ad._id">
-              <h2>{{ad.title}}</h2>
-              <p>{{ad.description}}</p>
-            </div>
+          <div v-for="ad in ads" :key="ad._id" class="mt-2">
+            <h2>{{ad.title}}</h2>
+            <p>{{ad.description}}</p>
+            <small>{{ad.date}}</small>
+            <v-divider />
           </div>
         </div>
         <v-layout justify-center align-center v-else>
@@ -51,14 +49,12 @@
 <script>
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
-
-import QueryService from '@/services/query'
 import AdService from '@/services/ad'
 
 export default {
   data () {
     return {
-      queries: null,
+      user: this.$store.state.user,
       ads: null,
       nav: true,
       openQueryDialog: false
@@ -69,16 +65,15 @@ export default {
     Navbar
   },
   async mounted () {
-    // Fetch user queries
-    const queries = (await QueryService.all()).data
-    if (queries) this.queries = queries
     // Fetch ads
     const ads = (await AdService.all()).data
     if (ads) this.ads = ads
   },
   methods: {
     disconnect () {
-      console.log('Disconnected')
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
+      this.$router.push({ name: 'login' })
     },
     openDialog () {
       this.openQueryDialog = true

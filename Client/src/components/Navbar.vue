@@ -13,7 +13,7 @@
       </span>
       <v-spacer></v-spacer>
       <v-menu>
-        <v-btn flat slot="activator">Insaf Benkadhi</v-btn>
+        <v-btn flat slot="activator">{{userName}}</v-btn>
         <v-list>
           <v-list-tile @click="disconnect">
             <v-list-tile-title>Déconnexion</v-list-tile-title>
@@ -27,7 +27,8 @@
 export default {
   props: {
     toggleNav: Function,
-    disconnect: Function
+    disconnect: Function,
+    userName: String
   }
 }
 </script>

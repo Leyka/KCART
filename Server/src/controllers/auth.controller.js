@@ -32,7 +32,7 @@ class AuthController {
     const {email, password} = req.body
     try {
       // Check email
-      const user = await User.findOne({email})
+      let user = await User.findOne({email}).populate('queries')
       if (!user) {
         return res.status(403).send({error: 'Votre email semble invalide'})
       }

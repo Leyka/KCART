@@ -31,11 +31,13 @@
               <v-list-tile-title v-html="query.brand"></v-list-tile-title>
               <v-list-tile-sub-title v-html="query.description"></v-list-tile-sub-title>
             </v-list-tile-content>
+            <!--
             <v-list-tile-action>
               <v-btn icon ripple>
                 <v-icon color="grey lighten-1">delete</v-icon>
               </v-btn>
             </v-list-tile-action>
+            -->
           </v-list-tile>
         </template>
       </v-list>
