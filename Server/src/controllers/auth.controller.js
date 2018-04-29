@@ -24,7 +24,7 @@ class AuthController {
         token: generateJWT(user)
       })
     } catch (err) {
-      res.status(400).send({error: 'Adresse Email déjà utilisée'})
+      res.status(400).send({error: 'Email address already used'})
     }
   }
 
@@ -34,12 +34,12 @@ class AuthController {
       // Check email
       let user = await User.findOne({email}).populate('queries')
       if (!user) {
-        return res.status(403).send({error: 'Votre email semble invalide'})
+        return res.status(403).send({error: 'Your email seems invalid'})
       }
       // Check password
       const validPassword = user.comparePassword(password)
       if (!validPassword) {
-        return res.status(403).send({error: 'Votre mot de passe semble invalide'})
+        return res.status(403).send({error: 'Your password seems invalid'})
       }
 
       // User is valid, connect and generate token
@@ -49,7 +49,7 @@ class AuthController {
       })
     } catch (err) {
       res.status(500).send({
-        error: "Une erreur interne s'est produite lors de la connexion"
+        error: 'An internal error has occured'
       })
     }
   }

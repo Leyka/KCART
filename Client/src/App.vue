@@ -3,6 +3,3 @@
     <router-view/>
   </v-app>
 </template>
-
-<style>
-</style>

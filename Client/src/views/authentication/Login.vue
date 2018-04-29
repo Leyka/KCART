@@ -1,11 +1,11 @@
 <template>
-  <v-content class="auth">
+  <v-content :style="{ background: `url('${image}') repeat` }">
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="deep-purple darken-3">
-                <v-toolbar-title>Connexion</v-toolbar-title>
+              <v-toolbar dark color="deep-purple darken-2">
+                <v-toolbar-title>Login</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form v-model="valid">
@@ -21,7 +21,7 @@
                     prepend-icon="lock"
                     type="password"
                     name="password"
-                    label="Mot de passe"
+                    label="Password"
                     v-model="password"
                     :rules=[rules.password]
                     @keyup.enter="logIn"
@@ -29,9 +29,9 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-btn flat color="grey darken-2" to="/register">Inscription</v-btn>
+                <v-btn flat color="grey darken-2" to="/register">Register</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn class="success" @click="logIn" :disabled="!valid">Se connecter</v-btn>
+                <v-btn class="success" @click="logIn" :disabled="!valid">Login</v-btn>
               </v-card-actions>
             </v-card>
         </v-flex>
@@ -50,6 +50,7 @@
 
 <script>
 import AuthenticationService from '@/services/auth'
+import image from '@/assets/bg.png'
 
 export default {
   data () {
@@ -59,16 +60,17 @@ export default {
       valid: true,
       text: null,
       snackbar: false,
+      image,
       rules: {
         email (value) {
-          if (!value) return 'Email requis'
+          if (!value) return 'Email required'
 
           return true
         },
         password (value) {
-          if (!value) return 'Mot de passe requis'
+          if (!value) return 'Password required'
           /* else if (!/^.{6,}$/.test(value)) {
-            return 'Doit contenir au moins 6 caractères'
+            return 'Must contain at least 6 caracters'
           } */
           return true
         }
@@ -95,9 +97,4 @@ export default {
 </script>
 
 <style scoped>
-.auth {
-  background: url('https://images.unsplash.com/photo-1500921726673-e4bdc09efa55?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=e627445359a5bc2409cb58517bb33882&auto=format&fit=crop&w=1950&q=80');
-  background-size:cover;
-  background-repeat:no-repeat;
-}
 </style>

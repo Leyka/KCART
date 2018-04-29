@@ -16,7 +16,7 @@
         <v-btn flat slot="activator">{{userName}}</v-btn>
         <v-list>
           <v-list-tile @click="disconnect">
-            <v-list-tile-title>Déconnexion</v-list-tile-title>
+            <v-list-tile-title>Sign out</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>

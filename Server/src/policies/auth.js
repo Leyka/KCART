@@ -8,7 +8,7 @@ class AuthPolicies {
     passport.authenticate('jwt', (err, user) => {
       if (err || !user) {
         res.status(403).send({
-          error: 'Accès refusé. Veuillez vous connecter.'
+          error: 'Access denied. Please login.'
         })
       } else {
         // Inject the authentic user in request object

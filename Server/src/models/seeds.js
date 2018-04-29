@@ -17,7 +17,7 @@ const data = [
     documents: [
       {
         publicId: 80002,
-        label: 'Grand Montréal'
+        label: 'Greater Montreal'
       }
     ]
   }

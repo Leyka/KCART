@@ -13,11 +13,11 @@
         <v-flex xs6>
           <v-subheader>
             <v-icon>notifications_none</v-icon>
-            <span class="ml-1 grey--text">Abonnements</span>
+            <span class="ml-1 grey--text">Subscribtions</span>
           </v-subheader>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
-          <v-btn small flat color="deep-purple darken-3" @click="openDialog">editer</v-btn>
+          <v-btn small flat color="deep-purple darken-3" @click="openDialog">Edit</v-btn>
         </v-flex>
       </v-layout>
       <v-list two-line>
@@ -47,7 +47,7 @@
           <v-list-tile-action>
             <v-icon color="grey darken-1">exit_to_app</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title class="grey--text text--darken-1">Déconnexion</v-list-tile-title>
+          <v-list-tile-title class="grey--text text--darken-1">Sign out</v-list-tile-title>
         </v-list-tile>
       </v-list>
   </v-navigation-drawer>
