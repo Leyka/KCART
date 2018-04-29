@@ -7,9 +7,9 @@
   >
     <v-toolbar-side-icon @click.stop="toggleNav" />
       <span class="title ml-3 mr-5">
-        KCart
+        Kaster
         <v-icon color="green accent-4">center_focus_strong</v-icon>
-        <small>Kijiji Cars Tracker</small>
+        <small>Kijiji Ads Tracker</small>
       </span>
       <v-spacer></v-spacer>
       <v-menu>

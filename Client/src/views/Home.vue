@@ -17,7 +17,7 @@
           <h2>Dernières annonces Kijiji</h2>
           <div v-for="ad in ads" :key="ad._id" class="mt-3">
             <a target="_blank" :href="ad.link" class="headline">{{ ad.title }}</a>
-            <p>{{ ad.description }}</p>
+            <pre>{{ ad.description }}</pre>
             <v-chip small class="warning">Annonce publiée il y a {{ ad.date | moment('from', true) }}</v-chip>
             <v-divider class="mt-2 mb-2"/>
           </div>

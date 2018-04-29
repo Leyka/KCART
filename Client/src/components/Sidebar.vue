@@ -12,7 +12,7 @@
       >
         <v-flex xs6>
           <v-subheader>
-            <v-icon>directions_car</v-icon>
+            <v-icon>notifications_none</v-icon>
             <span class="ml-1 grey--text">Abonnements</span>
           </v-subheader>
         </v-flex>
