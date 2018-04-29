@@ -14,7 +14,12 @@
     <v-content>
       <v-container fluid>
         <div class="grey--text" v-if="user.queries">
-          <h2>Dernières annonces Kijiji</h2>
+          <h2>
+            Latest Kijiji ads
+            <v-btn fab dark small color="green">
+              <v-icon dark>refresh</v-icon>
+            </v-btn>
+          </h2>
           <div v-for="ad in ads" :key="ad._id" class="mt-3">
             <a target="_blank" :href="ad.link" class="headline">{{ ad.title }}</a>
             <pre>{{ ad.description }}</pre>

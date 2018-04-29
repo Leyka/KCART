@@ -60,7 +60,7 @@ export default {
       valid: true,
       text: null,
       snackbar: false,
-      image,
+      image: image,
       rules: {
         email (value) {
           if (!value) return 'Email required'
